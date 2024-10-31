@@ -10,8 +10,9 @@ def load_image(url):
     try:
         response = requests.get(url)
         response.raise_for_status()
-        image_date=BytesIO(response.content)
+        image_data = BytesIO(response.content)
         img = Image.open(image_data)
+        img.thumbnail((600,480), Image.Resampling.LANCZOS)
         return ImageTk.PhotoImage(img)# функция возвращает img
     except Exception as e:
         print(f"Произошла ошибка: {e}")
@@ -27,15 +28,16 @@ def set_image():
 
 window = Tk()# создаем окно
 window.title("Cats!")# заголовок
-window.geometry("600x480")
+window.geometry("600x520")
 
 label = Label() # метка
 label.pack()
 
-update_button = Button("Обновить", command=set_image)
+update_button = Button(text="Обновить", command=set_image)
 update_button.pack()
 
-url = "https: // cataas.com/cat" # адрес интернете
+url = "https://cataas.com/cat" # адрес интернете
+img = load_image(url)
 
 set_image()
 
