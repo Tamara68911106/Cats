@@ -19,11 +19,15 @@ def load_image(url):
         print(f"Произошла ошибка: {e}")
         return None
 
-def set_image():
+def open_new_window():
     img = load_image(url)
 
     if img:  # если картинка не пустая
-        label.config(image=img)
+        new_window = Toplevel()
+        new_window.titile("Картинка с котиком")
+        new_window.geometry("600x480")
+        label = Label(new_window, image=img) # метка
+        label.pack()
         label.image = img  # картинка происвоина и сборщик мусора ее не удалит
 
 
@@ -34,8 +38,7 @@ window = Tk()# создаем окно
 window.title("Cats!")# заголовок
 window.geometry("600x520")
 
-label = Label() # метка
-label.pack()
+
 
 
 url = "https://cataas.com/cat" # адрес интернете
@@ -51,10 +54,9 @@ window.config(menu=menu_bar)
 
 file_menu = Menu(menu_bar, tearoff=0)# чтобы меню не отклеивалось
 menu_bar.add_cascade(label= "Файл", menu=file_menu)
-file_menu.add_command(label="Загрузить фото", command=set_image)
-file_menu.add.command(lebel = "Выход", command=exit)
+file_menu.add_command(label="Загрузить фото", command=open_new_window)
+file_menu.add_separator()
+file_menu.add_command(label = "Выход", command=exit)
 
-
-set_image()
 
 window.mainloop()
