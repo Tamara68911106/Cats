@@ -1,7 +1,12 @@
 from tkinter import*
+from tkinter import ttk # чтобы использовать набор улучшенных виджетов  bombobox
 from PIL import Image,ImageTk
 import requests
 from io import BytesIO # позволяет работать с двоичными (1,0) байтами,т.к картинка из инета будет приходить в виде набора байтов, ее(картинку) надо превратить в изображение
+
+
+Allowed_tags=["sleep","jump","fight","black","white","bengal","cute", "play"]
+
 
 from bottle import response
 from gevent.testing.travis import command
@@ -20,7 +25,7 @@ def load_image(url):
         return None
 
 def open_new_window():
-    tag = tag_entry.get()
+    tag = tag_combobox.get()
     url_tag = f"https://cataas.com/cat/{tag}" if tag else "https://cataas.com/cat" # самый простой способ склейки - использовать fстроку
     img = load_image(url_tag)
 
@@ -40,12 +45,6 @@ window = Tk()# создаем окно
 window.title("Cats!")# заголовок
 window.geometry("600x520")
 
-tag_entry = Entry()
-tag_entry.pack()
-
-load_button = Button(text="Загрузить по тегу", command = open_new_window)
-load_button.pack()
-
 url = "https://cataas.com/cat" # адрес интернете
 img = load_image(url)
 
@@ -63,5 +62,13 @@ file_menu.add_command(label="Загрузить фото", command=open_new_wind
 file_menu.add_separator()
 file_menu.add_command(label = "Выход", command=exit)
 
+tag_lebal = Label(text ="Выбери тег")
+tag_lebal.pack()
+
+tag_combobox = ttk.Combobox(values=Allowed_tags)
+tag_combobox.pack()
+
+load_button = Button(text="Загрузить по тегу", command = open_new_window)
+load_button.pack()
 
 window.mainloop()
